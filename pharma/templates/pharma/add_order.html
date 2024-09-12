@@ -1,0 +1,11 @@
+<!-- pharma/templates/pharma/add_order.html -->
+{% extends 'pharma/base.html' %}
+
+{% block content %}
+<h1>Add New Order</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Add Order</button>
+</form>
+{% endblock %}

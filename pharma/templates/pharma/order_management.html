@@ -1,0 +1,32 @@
+<!-- pharma/templates/pharma/order_management.html -->
+{% extends 'pharma/base.html' %}
+
+{% block content %}
+<h1>Order Management</h1>
+<a href="{% url 'add_order' %}" class="btn">Add New Order</a>
+<table>
+    <thead>
+        <tr>
+            <th>Medicine</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Date Ordered</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.medicine.name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.date_ordered }}</td>
+            <td>
+                <a href="{% url 'update_order' order.pk %}" class="btn">Edit</a>
+                <a href="{% url 'delete_order' order.pk %}" class="btn">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

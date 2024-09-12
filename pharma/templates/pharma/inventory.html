@@ -1,0 +1,30 @@
+{% extends 'pharma/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="inventory-container">
+    <h2>Inventory</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Expiry Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicine in medicines %}
+            <tr>
+                <td>{{ medicine.name }}</td>
+                <td>{{ medicine.description }}</td>
+                <td>{{ medicine.price }}</td>
+                <td>{{ medicine.quantity }}</td>
+                <td>{{ medicine.expiry_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

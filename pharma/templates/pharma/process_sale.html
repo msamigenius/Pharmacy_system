@@ -1,0 +1,13 @@
+{% extends 'pharma/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="sales-container">
+    <h2>Process Sale</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Complete Sale</button>
+    </form>
+</div>
+{% endblock %}

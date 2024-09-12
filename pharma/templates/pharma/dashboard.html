@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Pharmacy Management System</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+   
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'manage_medicine' %}">Manage Medicines</a></li>
+                <li><a href="{% url 'process_sale' %}">Sales</a></li>
+                <li><a href="{% url 'report' %}">Reports</a></li>
+                <li><a href="{% url 'inventory' %}">Inventory</a></li>
+                <li><a href="{% url 'order_management' %}">Order Management</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h1>Welcome to the Dashboard</h1>
+            <p>Your central hub for managing the Pharmacy Management System. Use the navigation menu to access various functionalities.</p>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <h2>Total Medicines</h2>
+                <p>{{ total_medicines }}</p>
+            </div>
+            <div class="stat-card">
+                <h2>Total Sales</h2>
+                <p>PKR {{ total_sales|floatformat:2 }}</p>
+            </div>
+            <div class="stat-card">
+                <h2>Pending Orders</h2>
+                <p>{{ pending_orders }}</p>
+            </div>
+        </section>
+
+        <section class="pending-orders">
+            <h2>Pending Orders</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Medicine</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr data-order-id="{{ order.id }}">
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.medicine.name }}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td class="order-status">{{ order.status }}</td>
+                        <td>
+                            {% if order.status != 'Completed' %}
+                            <button class="mark-completed-btn">Mark as Completed</button>
+                            {% else %}
+                            <span>Completed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section class="recent-activities">
+            <h2>Recent Activities</h2>
+            <ul id="activity-list">
+                <!-- List recent activities here -->
+                <li>No recent activities</li>
+            </ul>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.mark-completed-btn').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const row = button.closest('tr');
+                    const orderId = row.getAttribute('data-order-id');
+                    const response = await fetch(`/update-order-status/${orderId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({})
+                    });
+    
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.status === 'success') {
+                            // Remove the row from the table
+                            row.remove();
+                        } else {
+                            alert('Failed to update order status');
+                        }
+                    } else {
+                        alert('Failed to update order status');
+                    }
+                });
+            });
+        });
+    </script>
+    
+
+</body>
+</html>

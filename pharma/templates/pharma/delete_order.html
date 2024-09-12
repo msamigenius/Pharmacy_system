@@ -1,0 +1,12 @@
+<!-- pharma/templates/pharma/delete_order.html -->
+{% extends 'pharma/base.html' %}
+
+{% block content %}
+<h1>Delete Order</h1>
+<p>Are you sure you want to delete the order for {{ order.medicine.name }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn">Delete</button>
+    <a href="{% url 'order_management' %}" class="btn">Cancel</a>
+</form>
+{% endblock %}

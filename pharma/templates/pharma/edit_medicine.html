@@ -1,0 +1,13 @@
+{% extends 'pharma/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="edit-medicine-container">
+    <h2>Edit Medicine</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Medicine</button>
+    </form>
+</div>
+{% endblock %}

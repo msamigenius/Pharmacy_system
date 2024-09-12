@@ -1,0 +1,30 @@
+{% extends 'pharma/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="report-container">
+    <h2>Sales Report</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Medicine</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Date Sold</th>
+                <th>Sold By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{ sale.medicine.name }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>{{ sale.total_price }}</td>
+                <td>{{ sale.date_sold }}</td>
+                <td>{{ sale.sold_by.username }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
